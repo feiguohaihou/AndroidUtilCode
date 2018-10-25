@@ -200,7 +200,8 @@ public final class NetworkUtils {
     public static boolean getWifiEnabled() {
         @SuppressLint("WifiManagerLeak")
         WifiManager manager = (WifiManager) Utils.getApp().getSystemService(WIFI_SERVICE);
-        return manager != null && manager.isWifiEnabled();
+        if (manager == null) return false;
+        return manager.isWifiEnabled();
     }
 
     /**
@@ -214,7 +215,8 @@ public final class NetworkUtils {
     public static void setWifiEnabled(final boolean enabled) {
         @SuppressLint("WifiManagerLeak")
         WifiManager manager = (WifiManager) Utils.getApp().getSystemService(WIFI_SERVICE);
-        if (manager == null || enabled == manager.isWifiEnabled()) return;
+        if (manager == null) return;
+        if (enabled == manager.isWifiEnabled()) return;
         manager.setWifiEnabled(enabled);
     }
 
@@ -229,9 +231,9 @@ public final class NetworkUtils {
     public static boolean isWifiConnected() {
         ConnectivityManager cm =
                 (ConnectivityManager) Utils.getApp().getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm != null
-                && cm.getActiveNetworkInfo() != null
-                && cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
+        if (cm == null) return false;
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        return ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
     /**
@@ -255,7 +257,8 @@ public final class NetworkUtils {
     public static String getNetworkOperatorName() {
         TelephonyManager tm =
                 (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
-        return tm != null ? tm.getNetworkOperatorName() : "";
+        if (tm == null) return "";
+        return tm.getNetworkOperatorName();
     }
 
     /**
@@ -333,10 +336,10 @@ public final class NetworkUtils {
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     private static NetworkInfo getActiveNetworkInfo() {
-        ConnectivityManager manager =
+        ConnectivityManager cm =
                 (ConnectivityManager) Utils.getApp().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (manager == null) return null;
-        return manager.getActiveNetworkInfo();
+        if (cm == null) return null;
+        return cm.getActiveNetworkInfo();
     }
 
     /**

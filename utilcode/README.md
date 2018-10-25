@@ -2,7 +2,7 @@
 
 Gradle:
 ```groovy
-implementation 'com.blankj:utilcode:1.20.0'
+implementation 'com.blankj:utilcode:1.21.1'
 ```
 
 
@@ -73,10 +73,10 @@ getActionBarHeight
 setNotificationBarVisibility
 getNavBarHeight
 setNavBarVisibility
-setNavBarImmersive
+isNavBarVisible
 setNavBarColor
 getNavBarColor
-isNavBarVisible
+isSupportNavBar
 ```
 
 * ### About CacheDisk -> [CacheDiskUtils.java][cache_disk.java] -> [Test][cache_disk.test]
@@ -173,6 +173,7 @@ init
 * ### About Device -> [DeviceUtils.java][device.java] -> [Demo][device.demo]
 ```
 isDeviceRooted
+isAdbEnabled
 getSDKVersionName
 getSDKVersionCode
 getAndroidID
@@ -252,6 +253,7 @@ copyDir
 copyFile
 moveDir
 moveFile
+delete
 deleteDir
 deleteFile
 deleteAllInDir
@@ -438,6 +440,46 @@ equals
 requireNonNull
 getOrDefault
 hashCode
+```
+
+* ### About Path -> [PathUtils.java][path.java] -> [Demo][path.demo]
+```
+getRootPath
+getDataPath
+getDownloadCachePath
+getInternalAppDataPath
+getInternalAppCodeCacheDir
+getInternalAppCachePath
+getInternalAppDbsPath
+getInternalAppDbPath
+getInternalAppFilesPath
+getInternalAppSpPath
+getInternalAppNoBackupFilesPath
+getExternalStoragePath
+getExternalMusicPath
+getExternalPodcastsPath
+getExternalRingtonesPath
+getExternalAlarmsPath
+getExternalNotificationsPath
+getExternalPicturesPath
+getExternalMoviesPath
+getExternalDownloadsPath
+getExternalDcimPath
+getExternalDocumentsPath
+getExternalAppDataPath
+getExternalAppCachePath
+getExternalAppFilesPath
+getExternalAppMusicPath
+getExternalAppPodcastsPath
+getExternalAppRingtonesPath
+getExternalAppAlarmsPath
+getExternalAppNotificationsPath
+getExternalAppPicturesPath
+getExternalAppMoviesPath
+getExternalAppDownloadPath
+getExternalAppDcimPath
+getExternalAppDocumentsPath
+getExternalAppObbPath
 ```
 
 * ### About Permission -> [PermissionUtils.java][permission.java] -> [Demo][permission.demo]
@@ -826,6 +868,9 @@ getComments
 
 [object.java]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/src/main/java/com/blankj/utilcode/util/ObjectUtils.java
 [object.test]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/src/test/java/com/blankj/utilcode/util/ObjectUtilsTest.java
+
+[path.java]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/src/main/java/com/blankj/utilcode/util/PathUtils.java
+[path.demo]: https://github.com/Blankj/AndroidUtilCode/blob/master/app/src/main/java/com/blankj/androidutilcode/feature/core/path/PathActivity.java
 
 [permission.java]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/src/main/java/com/blankj/utilcode/util/PermissionUtils.java
 [permission.demo]: https://github.com/Blankj/AndroidUtilCode/blob/master/app/src/main/java/com/blankj/androidutilcode/feature/core/permission/PermissionActivity.java
