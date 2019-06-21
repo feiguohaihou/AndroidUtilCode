@@ -48,8 +48,8 @@ class BarStatusImageViewFragment : BaseLazyFragment() {
         return R.layout.fragment_bar_status_image_view
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        barStatusImageViewFragmentSetTransparentBtn.setOnClickListener(this)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(barStatusImageViewFragmentSetTransparentBtn)
         barStatusImageViewFragmentChangeAlphaSb.setOnSeekBarChangeListener(translucentListener)
         barStatusImageViewFragmentAboutTv.text = mAlpha.toString()
 
@@ -60,7 +60,7 @@ class BarStatusImageViewFragment : BaseLazyFragment() {
         LogUtils.d("doLazyBusiness() called")
     }
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.barStatusImageViewSetTransparentBtn -> barStatusImageViewFragmentChangeAlphaSb.progress = 0
         }

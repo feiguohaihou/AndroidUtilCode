@@ -4,11 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.subutil.pkg.R
+import com.blankj.subutil.pkg.feature.appStore.AppStoreActivity
+import com.blankj.subutil.pkg.feature.countryCode.CountryCodeActivity
 import com.blankj.subutil.pkg.feature.location.LocationActivity
 import com.blankj.subutil.pkg.feature.pinyin.PinyinActivity
+import com.blankj.subutil.util.AppStoreUtils
 import com.blankj.utilcode.util.BusUtils
+import kotlinx.android.synthetic.main.activity_util_sub.*
+import kotlinx.android.synthetic.main.activity_util_sub.view.*
 
 /**
  * ```
@@ -18,7 +23,7 @@ import com.blankj.utilcode.util.BusUtils
  * desc  : MainActivity
  * ```
  */
-class SubUtilActivity : BaseTitleBarActivity() {
+class SubUtilActivity : CommonTitleActivity() {
 
     companion object {
         @BusUtils.Subscribe(name = "SubUtilActivity#start")
@@ -38,17 +43,23 @@ class SubUtilActivity : BaseTitleBarActivity() {
         return R.layout.activity_util_sub
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {}
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(
+                subUtilAppStoreBtn,
+                subUtilCountryCodeBtn,
+                subUtilLocationBtn,
+                subUtilPinyinBtn
+        )
+    }
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {}
-
-    fun locationClick(view: View) {
-        LocationActivity.start(this)
-    }
-
-    fun pinyinClick(view: View) {
-        PinyinActivity.start(this)
+    override fun onDebouncingClick(view: View) {
+        when(view.id) {
+            R.id.subUtilAppStoreBtn -> AppStoreActivity.start(this)
+            R.id.subUtilCountryCodeBtn -> CountryCodeActivity.start(this)
+            R.id.subUtilLocationBtn -> LocationActivity.start(this)
+            R.id.subUtilPinyinBtn -> PinyinActivity.start(this)
+        }
     }
 }

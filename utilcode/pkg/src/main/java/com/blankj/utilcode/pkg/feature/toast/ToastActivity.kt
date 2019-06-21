@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.Gravity
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.utilcode.pkg.R
 import com.blankj.utilcode.pkg.helper.DialogHelper
 import com.blankj.utilcode.util.SpanUtils
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_toast.*
  * desc  : demo about ToastUtils
  * ```
  */
-class ToastActivity : BaseTitleBarActivity() {
+class ToastActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -41,22 +41,24 @@ class ToastActivity : BaseTitleBarActivity() {
         return R.layout.activity_toast
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        toastShowShortBtn.setOnClickListener(this)
-        toastShowLongBtn.setOnClickListener(this)
-        toastShowGreenFontBtn.setOnClickListener(this)
-        toastShowBgColorBtn.setOnClickListener(this)
-        toastShowBgResourceBtn.setOnClickListener(this)
-        toastShowSpanBtn.setOnClickListener(this)
-        toastShowCustomViewBtn.setOnClickListener(this)
-        toastShowMiddleBtn.setOnClickListener(this)
-        toastCancelBtn.setOnClickListener(this)
-        toastShowToastDialogBtn.setOnClickListener(this)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(
+                toastShowShortBtn,
+                toastShowLongBtn,
+                toastShowGreenFontBtn,
+                toastShowBgColorBtn,
+                toastShowBgResourceBtn,
+                toastShowSpanBtn,
+                toastShowCustomViewBtn,
+                toastShowMiddleBtn,
+                toastCancelBtn,
+                toastShowToastDialogBtn
+        )
     }
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         resetToast()
         when (view.id) {
             R.id.toastShowShortBtn -> Thread(Runnable { ToastUtils.showShort(R.string.toast_short) }).start()

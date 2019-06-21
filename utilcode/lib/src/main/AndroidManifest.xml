@@ -2,6 +2,7 @@
     package="com.blankj.utilcode">
 
     <application>
+
         <activity
             android:name="com.blankj.utilcode.util.PermissionUtils$PermissionActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -19,5 +20,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/util_code_provider_paths" />
         </provider>
+
+        <service android:name="com.blankj.utilcode.util.BusUtils$ServerService">
+            <intent-filter>
+                <action android:name="${applicationId}.messenger" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.utilcode.pkg.R
 import kotlinx.android.synthetic.main.activity_bar.*
 
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_bar.*
  * desc  : demo about BarUtils
  * ```
  */
-class BarActivity : BaseTitleBarActivity() {
+class BarActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -35,22 +35,23 @@ class BarActivity : BaseTitleBarActivity() {
         return R.layout.activity_bar
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        barStatusAboutBtn.setOnClickListener(this)
-        barStatusSetColorBtn.setOnClickListener(this)
-        barStatusSetAlphaBtn.setOnClickListener(this)
-        barStatusSetImageViewBtn.setOnClickListener(this)
-        barStatusSetCustomBtn.setOnClickListener(this)
-        barStatusSetFragmentBtn.setOnClickListener(this)
-        barStatusSetSwipeBackBtn.setOnClickListener(this)
-        barStatusSetDrawerBtn.setOnClickListener(this)
-        barNotificationAboutBtn.setOnClickListener(this)
-        barNavAboutBtn.setOnClickListener(this)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(
+                barStatusAboutBtn,
+                barStatusSetColorBtn,
+                barStatusSetAlphaBtn,
+                barStatusSetImageViewBtn,
+                barStatusSetCustomBtn,
+                barStatusSetFragmentBtn,
+                barStatusSetDrawerBtn,
+                barNotificationAboutBtn,
+                barNavAboutBtn
+        )
     }
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.barStatusAboutBtn -> BarStatusActivity.start(this)
             R.id.barStatusSetColorBtn -> BarStatusColorActivity.start(this)
@@ -58,7 +59,6 @@ class BarActivity : BaseTitleBarActivity() {
             R.id.barStatusSetImageViewBtn -> BarStatusImageViewActivity.start(this)
             R.id.barStatusSetCustomBtn -> BarStatusCustomActivity.start(this)
             R.id.barStatusSetFragmentBtn -> BarStatusFragmentActivity.start(this)
-            R.id.barStatusSetSwipeBackBtn -> BarStatusSwipeBackActivity.start(this)
             R.id.barStatusSetDrawerBtn -> BarStatusDrawerActivity.start(this)
             R.id.barNotificationAboutBtn -> BarNotificationActivity.start(this)
             R.id.barNavAboutBtn -> BarNavActivity.start(this)

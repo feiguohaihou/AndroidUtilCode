@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.utilcode.pkg.R
 import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.SpanUtils
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_process.*
  * desc  : demo about ProcessUtils
  * ```
  */
-class ProcessActivity : BaseTitleBarActivity() {
+class ProcessActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -37,8 +37,8 @@ class ProcessActivity : BaseTitleBarActivity() {
         return R.layout.activity_process
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        processKillAllBackgroundProcesses.setOnClickListener(this)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(processKillAllBackgroundProcesses)
         val set = ProcessUtils.getAllBackgroundProcesses()
         SpanUtils.with(processAboutTv)
                 .appendLine("getForegroundProcessName: " + ProcessUtils.getForegroundProcessName()!!)
@@ -51,7 +51,7 @@ class ProcessActivity : BaseTitleBarActivity() {
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.processKillAllBackgroundProcesses -> {
                 val bgSet = ProcessUtils.getAllBackgroundProcesses()

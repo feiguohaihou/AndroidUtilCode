@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.pkg.R
 import com.blankj.utilcode.pkg.helper.DialogHelper
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_permission.*
  * desc  : demo about PermissionUtils
  * ```
  */
-class PermissionActivity : BaseTitleBarActivity() {
+class PermissionActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -42,13 +42,15 @@ class PermissionActivity : BaseTitleBarActivity() {
         return R.layout.activity_permission
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        permissionOpenAppSettingsBtn.setOnClickListener(this)
-        permissionRequestCalendarBtn.setOnClickListener(this)
-        permissionRequestRecordAudioBtn.setOnClickListener(this)
-        permissionRequestCalendarAndRecordAudioBtn.setOnClickListener(this)
-        permissionRequestWriteSettings.setOnClickListener(this)
-        permissionRequestDrawOverlays.setOnClickListener(this)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(
+                permissionOpenAppSettingsBtn,
+                permissionRequestCalendarBtn,
+                permissionRequestRecordAudioBtn,
+                permissionRequestCalendarAndRecordAudioBtn,
+                permissionRequestWriteSettings,
+                permissionRequestDrawOverlays
+        )
 
         val sb = StringBuilder()
         for (s in PermissionUtils.getPermissions()) {
@@ -59,12 +61,12 @@ class PermissionActivity : BaseTitleBarActivity() {
 
     override fun onResume() {
         super.onResume()
-        updateAboutPermission()
+        Utils.runOnUiThreadDelayed(Runnable(this@PermissionActivity::updateAboutPermission), 100)
     }
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.permissionOpenAppSettingsBtn -> PermissionUtils.launchAppDetailsSettings()
             R.id.permissionRequestCalendarBtn -> requestCalendar()
@@ -182,6 +184,5 @@ class PermissionActivity : BaseTitleBarActivity() {
                         appendLine("DRAW_OVERLAYS: " + PermissionUtils.isGrantedDrawOverlays())
                     }
                 }
-                .create()
     }
 }

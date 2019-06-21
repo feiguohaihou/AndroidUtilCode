@@ -7,6 +7,8 @@
     <string name="demo_brightness">BrightnessUtils Demo</string>
     <string name="demo_blur">BlurUtils Demo</string>
     <string name="demo_clean">CleanUtils Demo</string>
+    <string name="demo_click">ClickUtils Demo</string>
+    <string name="demo_bus">BusUtils Demo</string>
     <string name="demo_crash">CrashUtils Demo</string>
     <string name="demo_device">DeviceUtils Demo</string>
     <string name="demo_flashlight">FlashlightUtils Demo</string>
@@ -92,7 +94,6 @@
     <string name="bar_status_set_image_view">Set Image View</string>
     <string name="bar_status_set_custom">Set Custom</string>
     <string name="bar_status_set_fragment">Set Fragment</string>
-    <string name="bar_status_set_swipe_back">Set Swipe Back</string>
     <string name="bar_status_set_drawer">Set Drawer</string>
     <string name="bar_status_random_color">Random Color</string>
     <string name="bar_status_set_transparent">Set Transparent</string>
@@ -118,6 +119,15 @@
     <string name="clean_internal_databases">Clean Internal Databases</string>
     <string name="clean_internal_sp">Clean Internal SP</string>
     <string name="clean_external_cache">Clean External Cache</string>
+
+    <!--Click 相关-->
+    <string name="click_scale_default">Click Scale Default</string>
+    <string name="click_scale_custom">Click Scale Custom</string>
+
+    <!--Bus 相关-->
+    <string name="bus_start_remote">Start Remote</string>
+    <string name="bus_post">Post</string>
+    <string name="bus_post_to_main">Post to Main</string>
 
     <!--Device 相关-->
     <string name="device_shutdown">Shutdown</string>
@@ -239,10 +249,6 @@
     <string name="screen_screenshot">Screenshot</string>
     <string name="screen_set_sleep_duration">Set Sleep Duration</string>
     <string name="screen_test_adapt_screen">Test Adapt Screen</string>
-    <string name="adapt_screen_system_toast">System Toast</string>
-    <string name="adapt_screen_util_toast">Util Toast</string>
-    <string name="adapt_screen_system_dialog">System Dialog</string>
-    <string name="adapt_screen_system_dialog_without_adapt">System Dialog Without Adapt</string>
 
     <!--SnackBar 相关-->
     <string name="snackbar_show_short">Show Short Snackbar</string>

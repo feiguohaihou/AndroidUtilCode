@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.utilcode.pkg.R
 import com.blankj.utilcode.util.CleanUtils
 import com.blankj.utilcode.util.SnackbarUtils
@@ -20,7 +20,7 @@ import java.io.File
  * desc  : demo about CleanUtils
  * ```
  */
-class CleanActivity : BaseTitleBarActivity() {
+class CleanActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -46,13 +46,15 @@ class CleanActivity : BaseTitleBarActivity() {
         return R.layout.activity_clean
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
         snackBarRootView = findViewById(android.R.id.content)
-        cleanInternalCacheBtn.setOnClickListener(this)
-        cleanInternalFilesBtn.setOnClickListener(this)
-        cleanInternalDatabasesBtn.setOnClickListener(this)
-        cleanInternalSpBtn.setOnClickListener(this)
-        cleanExternalCacheBtn.setOnClickListener(this)
+        applyDebouncingClickListener(
+                cleanInternalCacheBtn,
+                cleanInternalFilesBtn,
+                cleanInternalDatabasesBtn,
+                cleanInternalSpBtn,
+                cleanExternalCacheBtn
+        )
 
         internalCachePath = cacheDir.path
         internalFilesPath = filesDir.path
@@ -66,7 +68,7 @@ class CleanActivity : BaseTitleBarActivity() {
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.cleanInternalCacheBtn -> showSnackbar(CleanUtils.cleanInternalCache(), internalCachePath)
             R.id.cleanInternalFilesBtn -> showSnackbar(CleanUtils.cleanInternalFiles(), internalFilesPath)

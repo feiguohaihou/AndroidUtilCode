@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.blankj.lib.base.BaseActivity
+import com.blankj.lib.common.CommonBackActivity
 import com.blankj.utilcode.pkg.R
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ColorUtils
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_bar_status_color.*
  * desc  : demo about BarUtils
  * ```
  */
-class BarStatusColorActivity : BaseActivity() {
+class BarStatusColorActivity : CommonBackActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -41,8 +41,8 @@ class BarStatusColorActivity : BaseActivity() {
         return R.layout.activity_bar_status_color
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        barStatusColorRandomColorBtn.setOnClickListener(this)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(barStatusColorRandomColorBtn)
 
         updateStatusBar()
     }
@@ -50,7 +50,7 @@ class BarStatusColorActivity : BaseActivity() {
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.barStatusColorRandomColorBtn -> {
                 mColor = ColorUtils.getRandomColor()

@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.View
 import android.widget.ImageView
-import com.blankj.lib.base.BaseDrawerActivity
-import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.BarUtils
-import com.blankj.utilcode.util.BusUtils
+import com.blankj.lib.common.CommonDrawerActivity
+import com.blankj.utilcode.constant.PermissionConstants
+import com.blankj.utilcode.util.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -20,9 +19,21 @@ import kotlinx.android.synthetic.main.activity_main.*
  * desc  : MainActivity
  * ```
  */
-class MainActivity : BaseDrawerActivity() {
+class MainActivity : CommonDrawerActivity() {
 
-    override fun initData(bundle: Bundle?) {}
+    override fun initData(bundle: Bundle?) {
+
+        PermissionUtils.permission(PermissionConstants.CALENDAR)
+                .callback(object : PermissionUtils.SimpleCallback {
+                    override fun onGranted() {
+                        LogUtils.e()
+                    }
+
+                    override fun onDenied() {
+                        LogUtils.e()
+                    }
+                })
+    }
 
     override fun bindLayout(): Int {
         return R.layout.activity_main
@@ -30,7 +41,7 @@ class MainActivity : BaseDrawerActivity() {
 
     private var view: ImageView? = null
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
         launcherMainCtl.setExpandedTitleColor(Color.TRANSPARENT)
         setSupportActionBar(launcherMainToolbar)
         val toggle = ActionBarDrawerToggle(this,
@@ -44,18 +55,20 @@ class MainActivity : BaseDrawerActivity() {
         BarUtils.setStatusBarColor4Drawer(mBaseDrawerRootLayout, launcherMainFakeStatusBar, Color.TRANSPARENT, false)
         BarUtils.addMarginTopEqualStatusBarHeight(launcherMainToolbar)
 
-        launcherMainCoreUtilBtn.setOnClickListener {
-            BusUtils.post<Any>("CoreUtilActivity#start", this)
-        }
-
-        launcherMainSubUtilBtn.setOnClickListener {
-            BusUtils.post<Any>("SubUtilActivity#start", this)
-        }
+        applyDebouncingClickListener(
+                launcherMainCoreUtilBtn,
+                launcherMainSubUtilBtn
+        )
     }
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {}
+    override fun onDebouncingClick(view: View) {
+        when (view.id) {
+            R.id.launcherMainCoreUtilBtn -> BusUtils.postStatic<Any>("CoreUtilActivity#start", this)
+            R.id.launcherMainSubUtilBtn -> BusUtils.postStatic<Any>("SubUtilActivity#start", this)
+        }
+    }
 
     override fun onBackPressed() {
         ActivityUtils.startHomeActivity()

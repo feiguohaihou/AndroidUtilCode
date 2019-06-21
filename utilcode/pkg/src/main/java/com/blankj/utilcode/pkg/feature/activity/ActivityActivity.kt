@@ -9,12 +9,11 @@ import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.view.View
 import android.view.Window
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.utilcode.pkg.R
 import com.blankj.utilcode.pkg.feature.CoreUtilActivity
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.SpanUtils
 import kotlinx.android.synthetic.main.activity_activity.*
 import java.util.*
@@ -27,7 +26,7 @@ import java.util.*
  * desc  : demo about ActivityUtils
  * ```
  */
-class ActivityActivity : BaseTitleBarActivity() {
+class ActivityActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -36,8 +35,8 @@ class ActivityActivity : BaseTitleBarActivity() {
         }
     }
 
-    internal var random = Random()
-    lateinit var bitmap: Bitmap
+    private var random = Random()
+    private lateinit var bitmap: Bitmap
     internal lateinit var intent: Intent
     private val intents = arrayOfNulls<Intent>(2)
 
@@ -54,36 +53,38 @@ class ActivityActivity : BaseTitleBarActivity() {
         return R.layout.activity_activity
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        activityClzBtn.setOnClickListener(this)
-        activityClzOptBtn.setOnClickListener(this)
-        activityClzAnimBtn.setOnClickListener(this)
-        activityActClzBtn.setOnClickListener(this)
-        activityActClzOptBtn.setOnClickListener(this)
-        activityActClzSharedElementBtn.setOnClickListener(this)
-        activityActClzAnimBtn.setOnClickListener(this)
-        activityPkgClsBtn.setOnClickListener(this)
-        activityPkgClsOptBtn.setOnClickListener(this)
-        activityPkgClsAnimBtn.setOnClickListener(this)
-        activityActPkgClsBtn.setOnClickListener(this)
-        activityActPkgClsOptBtn.setOnClickListener(this)
-        activityActPkgClsSharedElementBtn.setOnClickListener(this)
-        activityActPkgClsAnimBtn.setOnClickListener(this)
-        activityIntentBtn.setOnClickListener(this)
-        activityIntentOptBtn.setOnClickListener(this)
-        activityIntentSharedElementBtn.setOnClickListener(this)
-        activityIntentAnimBtn.setOnClickListener(this)
-        activityIntentsBtn.setOnClickListener(this)
-        activityIntentsOptBtn.setOnClickListener(this)
-        activityIntentsAnimBtn.setOnClickListener(this)
-        activityActIntentsBtn.setOnClickListener(this)
-        activityActIntentsOptBtn.setOnClickListener(this)
-        activityActIntentsAnimBtn.setOnClickListener(this)
-        activityActClzSharedElementBtn.setOnClickListener(this)
-        activityStartHomeActivityBtn.setOnClickListener(this)
-        activityFinishActivityBtn.setOnClickListener(this)
-        activityFinishToActivityBtn.setOnClickListener(this)
-        activityFinishAllActivitiesBtn.setOnClickListener(this)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(
+                activityClzBtn,
+                activityClzOptBtn,
+                activityClzAnimBtn,
+                activityActClzBtn,
+                activityActClzOptBtn,
+                activityActClzSharedElementBtn,
+                activityActClzAnimBtn,
+                activityPkgClsBtn,
+                activityPkgClsOptBtn,
+                activityPkgClsAnimBtn,
+                activityActPkgClsBtn,
+                activityActPkgClsOptBtn,
+                activityActPkgClsSharedElementBtn,
+                activityActPkgClsAnimBtn,
+                activityIntentBtn,
+                activityIntentOptBtn,
+                activityIntentSharedElementBtn,
+                activityIntentAnimBtn,
+                activityIntentsBtn,
+                activityIntentsOptBtn,
+                activityIntentsAnimBtn,
+                activityActIntentsBtn,
+                activityActIntentsOptBtn,
+                activityActIntentsAnimBtn,
+                activityActClzSharedElementBtn,
+                activityStartHomeActivityBtn,
+                activityFinishActivityBtn,
+                activityFinishToActivityBtn,
+                activityFinishAllActivitiesBtn
+        )
         SpanUtils.with(activityAboutTv)
                 .appendLine("isActivityExists: " + ActivityUtils.isActivityExists(AppUtils.getAppPackageName(), SubActivityActivity::class.java.name))
                 .appendLine("getLauncherActivity: " + ActivityUtils.getLauncherActivity(AppUtils.getAppPackageName()))
@@ -104,7 +105,7 @@ class ActivityActivity : BaseTitleBarActivity() {
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.activityClzBtn -> ActivityUtils.startActivity(SubActivityActivity::class.java)
             R.id.activityClzOptBtn -> ActivityUtils.startActivity(SubActivityActivity::class.java,
@@ -167,7 +168,6 @@ class ActivityActivity : BaseTitleBarActivity() {
     }
 
     private fun getOption(type: Int): Bundle? {
-        LogUtils.d(type)
         when (type) {
             0 -> return ActivityOptionsCompat.makeCustomAnimation(this,
                     R.anim.slide_in_right_1000,

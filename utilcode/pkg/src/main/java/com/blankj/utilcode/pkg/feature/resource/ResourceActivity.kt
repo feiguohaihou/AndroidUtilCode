@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.utilcode.pkg.Config
 import com.blankj.utilcode.pkg.R
 import com.blankj.utilcode.util.ResourceUtils
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_resource.*
  * desc  : demo about ResourceUtils
  * ```
  */
-class ResourceActivity : BaseTitleBarActivity() {
+class ResourceActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -40,9 +40,11 @@ class ResourceActivity : BaseTitleBarActivity() {
         return R.layout.activity_resource
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        resourceCopyFileFromAssets.setOnClickListener(this)
-        resourceCopyFileFromRaw.setOnClickListener(this)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(
+                resourceCopyFileFromAssets,
+                resourceCopyFileFromRaw
+        )
 
         SpanUtils.with(resourceAboutTv)
                 .appendLine("readAssets2String: " + ResourceUtils.readAssets2String("test/test.txt"))
@@ -53,10 +55,10 @@ class ResourceActivity : BaseTitleBarActivity() {
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
-            R.id.resourceCopyFileFromAssets -> ResourceUtils.copyFileFromAssets("test", Config.CACHE_PATH + "/assets/test")
-            R.id.resourceCopyFileFromRaw -> ResourceUtils.copyFileFromRaw(R.raw.test, Config.CACHE_PATH + "/raw/test.txt")
+            R.id.resourceCopyFileFromAssets -> ResourceUtils.copyFileFromAssets("test", Config.CACHE_PATH + "assets/test")
+            R.id.resourceCopyFileFromRaw -> ResourceUtils.copyFileFromRaw(R.raw.test, Config.CACHE_PATH + "raw/test.txt")
         }
     }
 }

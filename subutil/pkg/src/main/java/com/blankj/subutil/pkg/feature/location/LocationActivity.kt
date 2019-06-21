@@ -7,7 +7,7 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.subutil.pkg.R
 import com.blankj.subutil.pkg.helper.PermissionHelper
 import com.blankj.utilcode.util.SpanUtils
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_location.*
  * desc  : demo about LocationUtils
  * ```
  */
-class LocationActivity : BaseTitleBarActivity() {
+class LocationActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -74,7 +74,7 @@ class LocationActivity : BaseTitleBarActivity() {
         return R.layout.activity_location
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
         SpanUtils.with(locationAboutTv)
                 .appendLine("lastLatitude: unknown")
                 .appendLine("lastLongitude: unknown")
@@ -90,7 +90,7 @@ class LocationActivity : BaseTitleBarActivity() {
         bindService(Intent(this, LocationService::class.java), conn, Context.BIND_AUTO_CREATE)
     }
 
-    override fun onWidgetClick(view: View) {}
+    override fun onDebouncingClick(view: View) {}
 
     override fun onDestroy() {
         unbindService(conn)

@@ -2,10 +2,10 @@
 
 Gradle:
 ```groovy
-implementation 'com.blankj:utilcode:1.23.7'
+implementation 'com.blankj:utilcode:1.24.4'
 
 // if u use AndroidX, use the following
-implementation 'com.blankj:utilcodex:1.23.7'
+implementation 'com.blankj:utilcodex:1.24.4'
 ```
 
 
@@ -23,6 +23,7 @@ startHomeActivity              : 回到桌面
 getActivityList                : 获取 Activity 栈链表
 getLauncherActivity            : 获取启动项 Activity
 getTopActivity                 : 获取栈顶 Activity
+isActivityAlive                : 判断 Activity 是否存活
 isActivityExistsInStack        : 判断 Activity 是否存在栈中
 finishActivity                 : 结束 Activity
 finishToActivity               : 结束到指定 Activity
@@ -40,11 +41,6 @@ pt2Px      : pt 转 px
 px2Pt      : px 转 pt
 ```
 
-* ### AntiShake 相关 -> [AntiShakeUtils.java][antiShake.java]
-```
-isValid: 是否有效
-```
-
 * ### App 相关 -> [AppUtils.java][app.java] -> [Demo][app.demo]
 ```
 registerAppStatusChangedListener  : 注册 App 前后台切换监听器
@@ -58,6 +54,7 @@ isAppRoot                         : 判断 App 是否有 root 权限
 isAppDebug                        : 判断 App 是否是 Debug 版本
 isAppSystem                       : 判断 App 是否是系统应用
 isAppForeground                   : 判断 App 是否处于前台
+isAppRunning                      : 判断 App 是否运行
 launchApp                         : 打开 App
 relaunchApp                       : 重启 App
 launchAppDetailsSettings          : 打开 App 具体设置
@@ -283,6 +280,8 @@ shutdown         : 关机
 reboot           : 重启
 reboot2Recovery  : 重启到 recovery
 reboot2Bootloader: 重启到 bootloader
+isTablet         : 判断是否是平板
+isEmulator       : 判断是否是模拟器
 ```
 
 * ### 闪光灯相关 -> [FlashlightUtils.java][flashlight.java] -> [Demo][flashlight.demo]
@@ -528,25 +527,27 @@ getMetaDataInReceiver: 获取 receiver 的 meta-data 值
 
 * ### 网络相关 -> [NetworkUtils.java][network.java] -> [Demo][network.demo]
 ```
-openWirelessSettings  : 打开网络设置界面
-isConnected           : 判断网络是否连接
-isAvailableByPing     : 判断网络是否可用
-getMobileDataEnabled  : 判断移动数据是否打开
-setMobileDataEnabled  : 打开或关闭移动数据
-isMobileData          : 判断网络是否是移动数据
-is4G                  : 判断网络是否是 4G
-getWifiEnabled        : 判断 wifi 是否打开
-setWifiEnabled        : 打开或关闭 wifi
-isWifiConnected       : 判断 wifi 是否连接状态
-isWifiAvailable       : 判断 wifi 数据是否可用
-getNetworkOperatorName: 获取移动网络运营商名称
-getNetworkType        : 获取当前网络类型
-getIPAddress          : 获取 IP 地址
-getDomainAddress      : 获取域名 IP 地址
-getIpAddressByWifi    : 根据 WiFi 获取网络 IP 地址
-getGatewayByWifi      : 根据 WiFi 获取网关 IP 地址
-getNetMaskByWifi      : 根据 WiFi 获取子网掩码 IP 地址
-getServerAddressByWifi: 根据 WiFi 获取服务端 IP 地址
+openWirelessSettings    : 打开网络设置界面
+isConnected             : 判断网络是否连接
+isAvailable[Async]      : 判断网络是否可用
+isAvailableByPing[Async]: 用 ping 判断网络是否可用
+isAvailableByDns[Async] : 用 DNS 判断网络是否可用
+getMobileDataEnabled    : 判断移动数据是否打开
+setMobileDataEnabled    : 打开或关闭移动数据
+isMobileData            : 判断网络是否是移动数据
+is4G                    : 判断网络是否是 4G
+getWifiEnabled          : 判断 wifi 是否打开
+setWifiEnabled          : 打开或关闭 wifi
+isWifiConnected         : 判断 wifi 是否连接状态
+isWifiAvailable[Async]  : 判断 wifi 数据是否可用
+getNetworkOperatorName  : 获取移动网络运营商名称
+getNetworkType          : 获取当前网络类型
+getIPAddress[Async]     : 获取 IP 地址
+getDomainAddress[Async] : 获取域名 IP 地址
+getIpAddressByWifi      : 根据 WiFi 获取网络 IP 地址
+getGatewayByWifi        : 根据 WiFi 获取网关 IP 地址
+getNetMaskByWifi        : 根据 WiFi 获取子网掩码 IP 地址
+getServerAddressByWifi  : 根据 WiFi 获取服务端 IP 地址
 ```
 
 * ### 对象相关 -> [ObjectUtils.java][object.java] -> [Test][object.test]
@@ -712,6 +713,8 @@ getRomInfo : 获取 ROM 信息
 ```
 getScreenWidth     : 获取屏幕的宽度（单位：px）
 getScreenHeight    : 获取屏幕的高度（单位：px）
+getAppScreenWidth  : 获取应用屏幕的宽度（单位：px）
+getAppScreenHeight : 获取应用屏幕的高度（单位：px）
 getScreenDensity   : 获取屏幕密度
 getScreenDensityDpi: 获取屏幕密度 DPI
 setFullScreen      : 设置屏幕为全屏
@@ -727,7 +730,6 @@ screenShot         : 截屏
 isScreenLock       : 判断是否锁屏
 setSleepDuration   : 设置进入休眠时长
 getSleepDuration   : 获取进入休眠时长
-isTablet           : 判断是否是平板
 ```
 
 * ### SD 卡相关 -> [SDCardUtils.java][sdcard.java] -> [Demo][sdcard.demo]
@@ -749,7 +751,7 @@ isServiceRunning     : 判断服务是否运行
 
 * ### Shell 相关 -> [ShellUtils.java][shell.java]
 ```
-execCmd: 是否是在 root 下执行命令
+execCmd[Async]: 执行命令
 ```
 
 * ### 尺寸相关 -> [SizeUtils.java][size.java]
@@ -968,8 +970,6 @@ getComments       : 获取压缩文件中的注释链表
 
 [adaptScreen.java]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/lib/src/main/java/com/blankj/utilcode/util/AdaptScreenUtils.java
 [adaptScreen.demo]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/pkg/src/main/java/com/blankj/utilcode/pkg/feature/adaptScreen/AdaptScreenActivity.kt
-
-[antiShake.java]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/lib/src/main/java/com/blankj/utilcode/util/AntiShakeUtils.java
 
 [app.java]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/lib/src/main/java/com/blankj/utilcode/util/AppUtils.java
 [app.demo]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/pkg/src/main/java/com/blankj/utilcode/pkg/feature/app/AppActivity.kt

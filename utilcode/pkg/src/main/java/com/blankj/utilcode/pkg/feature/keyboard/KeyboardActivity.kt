@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.utilcode.pkg.R
 import com.blankj.utilcode.pkg.helper.DialogHelper
 import com.blankj.utilcode.util.KeyboardUtils
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_keyboard.*
  * desc  : demo about KeyboardUtils
  * ```
  */
-class KeyboardActivity : BaseTitleBarActivity() {
+class KeyboardActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -38,12 +38,14 @@ class KeyboardActivity : BaseTitleBarActivity() {
         return R.layout.activity_keyboard
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
         KeyboardUtils.fixAndroidBug5497(this)
-        keyboardHideSoftInputBtn.setOnClickListener(this)
-        keyboardShowSoftInputBtn.setOnClickListener(this)
-        keyboardToggleSoftInputBtn.setOnClickListener(this)
-        keyboardInFragmentBtn.setOnClickListener(this)
+        applyDebouncingClickListener(
+                keyboardHideSoftInputBtn,
+                keyboardShowSoftInputBtn,
+                keyboardToggleSoftInputBtn,
+                keyboardShowDialogBtn
+        )
 
         KeyboardUtils.registerSoftInputChangedListener(this) { height ->
             SpanUtils.with(keyboardAboutTv)
@@ -55,14 +57,14 @@ class KeyboardActivity : BaseTitleBarActivity() {
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.keyboardHideSoftInputBtn -> KeyboardUtils.hideSoftInput(this)
-            R.id.keyboardShowSoftInputBtn -> KeyboardUtils.showSoftInput(inputEt)
+            R.id.keyboardShowSoftInputBtn -> KeyboardUtils.showSoftInput(keyboardEt)
             R.id.keyboardToggleSoftInputBtn -> KeyboardUtils.toggleSoftInput()
-            R.id.keyboardInFragmentBtn -> {
+            R.id.keyboardShowDialogBtn -> {
+                keyboardEt.clearFocus()
                 DialogHelper.showKeyboardDialog()
-                KeyboardUtils.showSoftInput(this)
             }
         }
     }
@@ -93,9 +95,4 @@ class KeyboardActivity : BaseTitleBarActivity() {
 //        }
 //        return false
 //    }
-
-    override fun onDestroy() {
-        KeyboardUtils.unregisterSoftInputChangedListener(this)
-        super.onDestroy()
-    }
 }

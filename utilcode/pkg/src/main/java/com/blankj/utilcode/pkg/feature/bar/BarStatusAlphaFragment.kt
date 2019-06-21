@@ -48,8 +48,8 @@ class BarStatusAlphaFragment : BaseLazyFragment() {
         return R.layout.fragment_bar_status_alpha
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        barStatusAlphaFragmentSetTransparentBtn.setOnClickListener(this)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(barStatusAlphaFragmentSetTransparentBtn)
         barStatusAlphaFragmentChangeAlphaSb.setOnSeekBarChangeListener(translucentListener)
         barStatusAlphaFragmentAboutTv.text = mAlpha.toString()
 
@@ -60,7 +60,7 @@ class BarStatusAlphaFragment : BaseLazyFragment() {
         LogUtils.d("doLazyBusiness() called")
     }
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.barStatusAlphaSetTransparentBtn -> barStatusAlphaFragmentChangeAlphaSb.progress = 0
         }

@@ -2,10 +2,10 @@
 
 Gradle:
 ```groovy
-implementation 'com.blankj:utilcode:1.23.7'
+implementation 'com.blankj:utilcode:1.24.4'
 
 // if u use AndroidX, use the following
-implementation 'com.blankj:utilcodex:1.23.7'
+implementation 'com.blankj:utilcodex:1.24.4'
 ```
 
 
@@ -14,6 +14,7 @@ implementation 'com.blankj:utilcodex:1.23.7'
 * ### About Activity -> [ActivityUtils.java][activity.java] -> [Demo][activity.demo]
 ```
 getActivityByView
+getActivityByContext
 isActivityExists
 startActivity
 startActivityForResult
@@ -22,6 +23,7 @@ startHomeActivity
 getActivityList
 getLauncherActivity
 getTopActivity
+isActivityAlive
 isActivityExistsInStack
 finishActivity
 finishToActivity
@@ -39,11 +41,6 @@ pt2Px
 px2Pt
 ```
 
-* ### About AntiShake -> [AntiShakeUtils.java][antiShake.java]
-```
-isValid
-```
-
 * ### About App -> [AppUtils.java][app.java] -> [Demo][app.demo]
 ```
 registerAppStatusChangedListener
@@ -57,6 +54,7 @@ isAppRoot
 isAppDebug
 isAppSystem
 isAppForeground
+isAppRunning
 launchApp
 relaunchApp
 launchAppDetailsSettings
@@ -282,6 +280,8 @@ shutdown
 reboot
 reboot2Recovery
 reboot2Bootloader
+isTablet
+isEmulator
 ```
 
 * ### About Flashlight -> [FlashlightUtils.java][flashlight.java] -> [Demo][flashlight.demo]
@@ -529,7 +529,9 @@ getMetaDataInReceiver
 ```
 openWirelessSettings
 isConnected
-isAvailableByPing
+isAvailable[Async]      : 判断网络是否可用
+isAvailableByPing[Async]: 用 ping 判断网络是否可用
+isAvailableByDns[Async] : 用 DNS 判断网络是否可用
 getMobileDataEnabled
 setMobileDataEnabled
 isMobileData
@@ -537,11 +539,11 @@ is4G
 getWifiEnabled
 setWifiEnabled
 isWifiConnected
-isWifiAvailable
+isWifiAvailable[Async]  : 判断 wifi 数据是否可用
 getNetworkOperatorName
 getNetworkType
-getIPAddress
-getDomainAddress
+getIPAddress[Async]     : 获取 IP 地址
+getDomainAddress[Async] : 获取域名 IP 地址
 getIpAddressByWifi
 getGatewayByWifi
 getNetMaskByWifi
@@ -711,6 +713,8 @@ getRomInfo
 ```
 getScreenWidth
 getScreenHeight
+getAppScreenWidth
+getAppScreenHeight
 getScreenDensity
 getScreenDensityDpi
 setFullScreen
@@ -726,7 +730,6 @@ screenShot
 isScreenLock
 setSleepDuration
 getSleepDuration
-isTablet
 ```
 
 * ### About SDCard -> [SDCardUtils.java][sdcard.java] -> [Demo][sdcard.demo]
@@ -748,7 +751,7 @@ isServiceRunning
 
 * ### About Shell -> [ShellUtils.java][shell.java]
 ```
-execCmd
+execCmd[Async]: 执行命令
 ```
 
 * ### About Size -> [SizeUtils.java][size.java]
@@ -890,6 +893,7 @@ executeByCustom
 executeByCustomWithDelay
 executeByCustomAtFixRate
 cancel
+setDeliver
 ```
 
 * ### About Time -> [TimeUtils.java][time.java] -> [Test][time.test]
@@ -943,7 +947,7 @@ file2Uri
 uri2File
 ```
 
-* ### About Vibrate -> [VibrateUtils.java][vibrate.java] -> [Demo][demo.demo]
+* ### About Vibrate -> [VibrateUtils.java][vibrate.java] -> [Demo][vibrate.demo]
 ```
 vibrate
 cancel
@@ -966,8 +970,6 @@ getComments
 
 [adaptScreen.java]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/lib/src/main/java/com/blankj/utilcode/util/AdaptScreenUtils.java
 [adaptScreen.demo]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/pkg/src/main/java/com/blankj/utilcode/pkg/feature/adaptScreen/AdaptScreenActivity.kt
-
-[antiShake.java]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/lib/src/main/java/com/blankj/utilcode/util/AntiShakeUtils.java
 
 [app.java]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/lib/src/main/java/com/blankj/utilcode/util/AppUtils.java
 [app.demo]: https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/pkg/src/main/java/com/blankj/utilcode/pkg/feature/app/AppActivity.kt

@@ -2,11 +2,10 @@ package com.blankj.utilcode.pkg.feature.bar
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.utilcode.pkg.R
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ColorUtils
@@ -21,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_bar_nav.*
  * desc  : demo about BarUtils
  * ```
  */
-class BarNavActivity : BaseTitleBarActivity() {
+class BarNavActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -40,8 +39,7 @@ class BarNavActivity : BaseTitleBarActivity() {
         return R.layout.activity_bar_nav
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        contentView.setBackgroundColor(Color.GRAY)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
         if (!BarUtils.isSupportNavBar()) {
             barNavVisibilityCb.visibility = View.GONE
             barNavSetColorBtn.visibility = View.GONE
@@ -49,13 +47,13 @@ class BarNavActivity : BaseTitleBarActivity() {
             barNavVisibilityCb.setOnCheckedChangeListener { buttonView, isChecked ->
                 BarUtils.setNavBarVisibility(this, isChecked)
             }
-            barNavSetColorBtn.setOnClickListener(this)
+            applyDebouncingClickListener(barNavSetColorBtn)
         }
     }
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.barNavSetColorBtn -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 BarUtils.setNavBarColor(this, ColorUtils.getRandomColor())

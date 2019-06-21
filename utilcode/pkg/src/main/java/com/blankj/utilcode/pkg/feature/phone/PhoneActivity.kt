@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.utilcode.pkg.R
 import com.blankj.utilcode.pkg.helper.PermissionHelper
 import com.blankj.utilcode.util.PhoneUtils
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_phone.*
  * desc  : demo about PhoneUtils
  * ```
  */
-class PhoneActivity : BaseTitleBarActivity() {
+class PhoneActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -46,7 +46,7 @@ class PhoneActivity : BaseTitleBarActivity() {
         return R.layout.activity_phone
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
         SpanUtils.with(phoneAboutTv)
                 .appendLine("isPhone: " + PhoneUtils.isPhone())
                 .appendLine("getDeviceId: " + PhoneUtils.getDeviceId())
@@ -60,15 +60,17 @@ class PhoneActivity : BaseTitleBarActivity() {
                 .append("getPhoneStatus: " + PhoneUtils.getPhoneStatus())
                 .create()
 
-        phoneDialBtn.setOnClickListener(this)
-        phoneCallBtn.setOnClickListener(this)
-        phoneSendSmsBtn.setOnClickListener(this)
-        phoneSendSmsSilentBtn.setOnClickListener(this)
+        applyDebouncingClickListener(
+                phoneDialBtn,
+                phoneCallBtn,
+                phoneSendSmsBtn,
+                phoneSendSmsSilentBtn
+        )
     }
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.phoneDialBtn -> PhoneUtils.dial("10000")
             R.id.phoneCallBtn -> PhoneUtils.call("10000")

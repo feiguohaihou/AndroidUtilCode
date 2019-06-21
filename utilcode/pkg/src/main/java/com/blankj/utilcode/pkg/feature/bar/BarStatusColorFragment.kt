@@ -35,8 +35,8 @@ class BarStatusColorFragment : BaseLazyFragment() {
         return R.layout.fragment_bar_status_color
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        barStatusColorFragmentRandomColorBtn.setOnClickListener(this)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(barStatusColorFragmentRandomColorBtn)
         updateFakeStatusBar()
     }
 
@@ -44,7 +44,7 @@ class BarStatusColorFragment : BaseLazyFragment() {
         LogUtils.d("doLazyBusiness() called")
     }
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.barStatusColorFragmentRandomColorBtn -> {
                 mColor = ColorUtils.getRandomColor()

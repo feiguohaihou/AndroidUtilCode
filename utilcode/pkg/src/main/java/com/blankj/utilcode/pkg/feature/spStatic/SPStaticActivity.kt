@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.utilcode.pkg.R
 import com.blankj.utilcode.util.SPStaticUtils
 import kotlinx.android.synthetic.main.activity_spstatic.*
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_spstatic.*
  * desc  : demo about SPUtils
  * ```
  */
-class SPStaticActivity : BaseTitleBarActivity() {
+class SPStaticActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -48,20 +48,22 @@ class SPStaticActivity : BaseTitleBarActivity() {
         return R.layout.activity_spstatic
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        spStaticPutStringBtn.setOnClickListener(this)
-        spStaticPutIntBtn.setOnClickListener(this)
-        spStaticPutLongBtn.setOnClickListener(this)
-        spPutFloatBtn.setOnClickListener(this)
-        spStaticPutBooleanBtn.setOnClickListener(this)
-        spStaticClearBtn.setOnClickListener(this)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(
+                spStaticPutStringBtn,
+                spStaticPutIntBtn,
+                spStaticPutLongBtn,
+                spPutFloatBtn,
+                spStaticPutBooleanBtn,
+                spStaticClearBtn
+        )
     }
 
     override fun doBusiness() {
         updateAboutSp()
     }
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.spStaticPutStringBtn -> SPStaticUtils.put("STRING", "string")
             R.id.spStaticPutIntBtn -> SPStaticUtils.put("INT", 21)

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.blankj.lib.base.BaseTitleBarActivity
+import com.blankj.lib.common.CommonTitleActivity
 import com.blankj.utilcode.pkg.Config
 import com.blankj.utilcode.pkg.R
 import com.blankj.utilcode.pkg.helper.PermissionHelper
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_app.*
  * desc  : demo about AppUtils
  * ```
  */
-class AppActivity : BaseTitleBarActivity() {
+class AppActivity : CommonTitleActivity() {
 
     companion object {
         fun start(context: Context) {
@@ -52,20 +52,23 @@ class AppActivity : BaseTitleBarActivity() {
         return R.layout.activity_app
     }
 
-    override fun initView(savedInstanceState: Bundle?, contentView: View) {
-        appInstallAppBtn.setOnClickListener(this)
-        appInstallAppSilentBtn.setOnClickListener(this)
-        appUninstallAppBtn.setOnClickListener(this)
-        appUninstallAppSilentBtn.setOnClickListener(this)
-        appLaunchAppBtn.setOnClickListener(this)
-        appRelaunchAppBtn.setOnClickListener(this)
-        appExitAppBtn.setOnClickListener(this)
-        appLaunchAppDetailsSettingsBtn.setOnClickListener(this)
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+        applyDebouncingClickListener(
+                appInstallAppBtn,
+                appInstallAppSilentBtn,
+                appUninstallAppBtn,
+                appUninstallAppSilentBtn,
+                appLaunchAppBtn,
+                appRelaunchAppBtn,
+                appExitAppBtn,
+                appLaunchAppDetailsSettingsBtn
+        )
         SpanUtils.with(appAboutTv)
                 .appendLine("isAppRoot: " + AppUtils.isAppRoot())
                 .appendLine("isAppDebug: " + AppUtils.isAppDebug())
                 .appendLine("isAppSystem: " + AppUtils.isAppSystem())
-                .appendLine("isAppForeground: " + AppUtils.isAppForeground())
+                .appendLine("isAppForeground: " + AppUtils.isAppForeground("com.blankj.androidutilcode"))
+                .appendLine("isAppRunning: " + AppUtils.isAppRunning("com.blankj.androidutilcode"))
                 .append("getAppIcon: ").appendImage(AppUtils.getAppIcon(), SpanUtils.ALIGN_CENTER)
                 .appendLine()
                 .appendLine("getAppPackageName: " + AppUtils.getAppPackageName())
@@ -76,13 +79,14 @@ class AppActivity : BaseTitleBarActivity() {
                 .appendLine("getAppSignatureSHA1: " + AppUtils.getAppSignatureSHA1())
                 .appendLine("getAppSignatureSHA256: " + AppUtils.getAppSignatureSHA256())
                 .appendLine("getAppSignatureMD5: " + AppUtils.getAppSignatureMD5())
+                .appendLine("getAppUid: " + AppUtils.getAppUid())
                 .append("getApkInfo: " + AppUtils.getApkInfo(AppUtils.getAppPath()))
                 .create()
     }
 
     override fun doBusiness() {}
 
-    override fun onWidgetClick(view: View) {
+    override fun onDebouncingClick(view: View) {
         when (view.id) {
             R.id.appInstallAppBtn -> if (AppUtils.isAppInstalled(Config.TEST_PKG)) {
                 ToastUtils.showShort(R.string.app_install_tips)
@@ -125,14 +129,13 @@ class AppActivity : BaseTitleBarActivity() {
     }
 }
 
-class ReleaseInstallApkTask(private val mListener: OnReleasedListener) : ThreadUtils.SimpleTask<Void>() {
+class ReleaseInstallApkTask(private val mListener: OnReleasedListener) : ThreadUtils.SimpleTask<Unit>() {
 
-    override fun doInBackground(): Void? {
+    override fun doInBackground() {
         ResourceUtils.copyFileFromAssets("test_install", Config.TEST_APK_PATH)
-        return null
     }
 
-    override fun onSuccess(result: Void?) {
+    override fun onSuccess(result: Unit) {
         mListener.onReleased()
     }
 
